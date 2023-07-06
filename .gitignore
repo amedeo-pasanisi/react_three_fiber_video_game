@@ -26,6 +26,3 @@ dist-ssr
 *.woff
 *.glb
 *.png
-public/
-/public/
-/public
