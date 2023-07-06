@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { RigidBody } from '@react-three/rapier'
 import { useState, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { useGLTF } from '@react-three/drei'
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
 const floor1Material = new THREE.MeshStandardMaterial({ color: 'crimson' })
@@ -63,13 +64,26 @@ function BlockAxe({position = [0, 0, 0]}) {
         </RigidBody>
     </group>
 }
+function BlockEnd({position = [0, 0, 0]}) {
+    const hamburger = useGLTF('./hamburger.glb')
+    hamburger.scene.children.forEach((mesh) => {
+        mesh.castShadow = true
+    })
 
+    return <group position={position}>
+        <mesh geometry={boxGeometry} material={floor1Material} position={[0, 0, 0]} scale={[4, 0.2, 4]} receiveShadow />
+        <RigidBody type='fixed' colliders="hull" position={[0, 0.25, 0]} restitution={0.2} friction={0}>
+            <primitive object={hamburger.scene} scale={0.2} />
+        </RigidBody>
+    </group>
+}
 
 export default function Level() {
     return <>
-        <BlockStart position={[0, 0, 12]}/>
-        <BlockSpinner position={[0, 0, 8]} />
-        <BlockLimbo position={[0, 0, 4]} />
-        <BlockAxe position={[0, 0, 0]} />
+        <BlockStart position={[0, 0, 16]}/>
+        <BlockSpinner position={[0, 0, 12]} />
+        <BlockLimbo position={[0, 0, 8]} />
+        <BlockAxe position={[0, 0, 4]} />
+        <BlockEnd position={[0, 0, 0]} />
     </>
 }
