@@ -1,11 +1,34 @@
-import { RigidBody } from '@react-three/rapier'
+import { useRapier ,RigidBody } from '@react-three/rapier'
 import { useFrame } from '@react-three/fiber'
 import { useKeyboardControls } from '@react-three/drei'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 export default function Player() {
     const body = useRef()
+    const {rapier, world} = useRapier()
+    const jump = () => {
+        const origin = body.current.translation()  // return a vector 3 with center of the body coordinates
+        origin.y -= 0.31  // lower the origin of the sphere
+        const direction = {x: 0, y: -1, z: 0}
+        const ray = new rapier.Ray(origin, direction)
+        const hit = world.castRay(ray, 10, true)  // true will make all bodyes intersected by the ray as solid
+        if(hit.toi < 0.15) {  // toi stands for time of impact
+            body.current.applyImpulse({x: 0, y: 0.5, z: 0})
+        }
+    }
     const [subscribeKeys, getKeys] = useKeyboardControls()
+    useEffect(() => {
+        const unsubscribeJump = subscribeKeys(
+            (state) => state.jump,
+            (value) => {
+                if(value) {
+                    jump()
+                }
+            }
+        )
+        return () => unsubscribeJump()  //this is needed to subscribeKeys only once during developing
+    }, [])
+    
     useFrame((state, delta) =>{
         const {forward, backward, leftward, rightward} = getKeys()
         const impulse = {x: 0, y: 0, z: 0}
