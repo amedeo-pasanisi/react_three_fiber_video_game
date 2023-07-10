@@ -3,7 +3,7 @@ import { subscribeWithSelector } from 'zustand/middleware'
 
 export default create(subscribeWithSelector((set) => {
     return {
-        blocksCount: 2,
+        blocksCount: 10,
         blocksSeed: 0,
         //**
         /* Time
