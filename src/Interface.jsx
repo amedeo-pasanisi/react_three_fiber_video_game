@@ -20,7 +20,6 @@ export default function Interface() {
             let elapsedTime = 0
             if (state.phase === 'playing') {
                 elapsedTime = Date.now() - state.startTime
-                console.log(state.startTime)
             } else if (state.phase === 'ended') {
                 elapsedTime = state.endTime - state.startTime
             }
