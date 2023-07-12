@@ -4,16 +4,32 @@ import { addEffect } from "@react-three/fiber"
 import useGame from "./stores/useGame.jsx"
 
 export default function Interface() {
-    const time = useRef()
     const restart = useGame(state => state.restart)
     const phase = useGame(state => state.phase)
+    const divForward = useGame(state => state.divForward)
+    const divForwardTap = useGame(state => state.divForwardTap)
+    const divForwardUntap = useGame(state => state.divForwardUntap)
+    const divRightward = useGame(state => state.divRightward)
+    const divRightwardTap = useGame(state => state.divRightwardTap)
+    const divRightwardUntap = useGame(state => state.divRightwardUntap)
+    const divBackward = useGame(state => state.divBackward)
+    const divBackwardTap = useGame(state => state.divBackwardTap)
+    const divBackwardUntap = useGame(state => state.divBackwardUntap)
+    const divLeftward = useGame(state => state.divLeftward)
+    const divLeftwardTap = useGame(state => state.divLeftwardTap)
+    const divLeftwardUntap = useGame(state => state.divLeftwardUntap)
+    const divJump = useGame(state => state.divJump)
+    const divJumpTap = useGame(state => state.divJumpTap)
+    const divJumpUntap = useGame(state => state.divJumpUntap)
 
+    
     const forward = useKeyboardControls(state => state.forward)
     const backward = useKeyboardControls(state => state.backward)
     const leftward = useKeyboardControls(state => state.leftward)
     const rightward = useKeyboardControls(state => state.rightward)
     const jump = useKeyboardControls(state => state.jump)
-
+    
+    const time = useRef()
     useEffect(() => {
         const unsubscribeEffect = addEffect(() => {
             const state = useGame.getState()
@@ -35,7 +51,6 @@ export default function Interface() {
         }
     }, [])
 
-
     return <div className="interface">
         {/* Time */}
         <div ref={time} className="time">0.00</div>
@@ -48,15 +63,15 @@ export default function Interface() {
         {/* Controls */}
         <div className="controls">
             <div className="raw">
-                <div className={`key ${forward ? 'active' : ''}`}></div>
+                <div className={`key ${forward || divForward ? 'active' : ''}`} onTouchStart={divForwardTap} onTouchEnd={divForwardUntap}></div>
             </div>
             <div className="raw">
-                <div className={`key ${leftward ? 'active' : ''}`}></div>
-                <div className={`key ${backward ? 'active' : ''}`}></div>
-                <div className={`key ${rightward ? 'active' : ''}`}></div>
+                <div className={`key ${leftward || divLeftward ? 'active' : ''}`} onTouchStart={divLeftwardTap} onTouchEnd={divLeftwardUntap}></div>
+                <div className={`key ${backward || divBackward ? 'active' : ''}`} onTouchStart={divBackwardTap} onTouchEnd={divBackwardUntap}></div>
+                <div className={`key ${rightward || divRightward ? 'active' : ''}`} onTouchStart={divRightwardTap} onTouchEnd={divRightwardUntap}></div>
             </div>
             <div className="raw">
-                <div className={`key large ${jump ? 'active' : ''}`}></div>
+                <div className={`key large ${jump || divJump? 'active' : ''}`} onTouchStart={divJumpTap} onTouchEnd={divJumpUntap}></div>
             </div>
         </div>
     </div>

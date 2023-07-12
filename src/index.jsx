@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(document.querySelector('#root'))
 
 root.render(
     <KeyboardControls
-        map={[
+        map={[  // Array of keys to observe. Every key is an object with a name and an array of keys.
             {name: 'forward', keys: ['ArrowUp', 'KeyW']},
             {name: 'backward', keys: ['ArrowDown', 'KeyS']},
             {name: 'leftward', keys: ['ArrowLeft', 'KeyA']},

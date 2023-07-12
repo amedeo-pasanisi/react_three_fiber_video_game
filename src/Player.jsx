@@ -10,11 +10,15 @@ export default function Player() {
     const {rapier, world} = useRapier()
     const [smoothedCameraPosition] = useState(() => new THREE.Vector3(10, 10, 10))
     const [smoothedCameraTarget] = useState(() => new THREE.Vector3())
-
+    
     const start = useGame(state => state.start)
     const end = useGame(state => state.end)
     const restart = useGame(state => state.restart)
     const blocksCount = useGame(state => state.blocksCount)
+    const divForward = useGame(state => state.divForward)
+    const divRightward = useGame(state => state.divRightward)
+    const divBackward = useGame(state => state.divBackward)
+    const divLeftward = useGame(state => state.divLeftward)
 
     const jump = () => {
         const origin = body.current.translation()  // return a vector 3 with center of the body coordinates
@@ -43,7 +47,6 @@ export default function Player() {
                 }
             }
         )
-
         const unsubscribeJump = subscribeKeys(
             (state) => state.jump,
             (value) => {
@@ -52,16 +55,23 @@ export default function Player() {
                 }
             }
         )
-
+        const unsubscribeDivJump = useGame.subscribe(
+            (state) => state.divJump,
+            (value) => {
+                if(value) {
+                    jump()
+                }
+            }
+        )
         const unsubscribeAny = subscribeKeys(() => {
             start()
         })
-
-        return () => {
+        return () => {  //this is needed to subscribeKeys only once during developing
             unsubscribeReset()
             unsubscribeJump()
+            unsubscribeDivJump()
             unsubscribeAny()
-        }  //this is needed to subscribeKeys only once during developing
+        }
     }, [])
     
     useFrame((state, delta) =>{
@@ -69,23 +79,24 @@ export default function Player() {
          * Controls
          */
         const {forward, backward, leftward, rightward} = getKeys()
+        // console.log(forward)
         const impulse = {x: 0, y: 0, z: 0}
         const torque = {x: 0, y: 0, z: 0}
         const impulseStrenght = 0.6 * delta
         const torqueStrenght = 0.2 * delta
-        if(forward) {
+        if(forward || divForward) {
             impulse.z -= impulseStrenght
             torque.x -= torqueStrenght
         }
-        if(rightward) {
+        if(rightward || divRightward) {
             impulse.x += impulseStrenght
             torque.z -= torqueStrenght
         }
-        if(backward) {
+        if(backward || divBackward) {
             impulse.z += impulseStrenght
             torque.x += torqueStrenght
         }
-        if(leftward) {
+        if(leftward || divLeftward) {
             impulse.x -= impulseStrenght
             torque.z += torqueStrenght
         }

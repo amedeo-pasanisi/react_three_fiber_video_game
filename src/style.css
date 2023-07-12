@@ -77,6 +77,8 @@ body,
     margin: 4px;
     border: 2px solid #ffffff;
     background: #ffffff44;
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 .controls .key.large{
