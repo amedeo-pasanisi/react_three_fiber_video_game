@@ -37,21 +37,22 @@ export default create(subscribeWithSelector((set) => {
         //**
         /* Div Controls
          */
+        divTapped: false,
         divForward: false,
-        divForwardTap: () => {set(() =>{return {divForward: true}})},
-        divForwardUntap: () => {set(() =>{return {divForward: false}})},
+        divForwardTap: () => {set(() =>{return {divTapped: true, divForward: true}})},
+        divForwardUntap: () => {set(() =>{return {divTapped: false, divForward: false}})},
         divRightward: false,
-        divRightwardTap: () => {set(() => {return {divRightward: true}})},
-        divRightwardUntap: () => {set(() =>{return {divRightward: false}})},
+        divRightwardTap: () => {set(() => {return {divTapped: true, divRightward: true}})},
+        divRightwardUntap: () => {set(() =>{return {divTapped: false, divRightward: false}})},
         divBackward: false,
-        divBackwardTap: () => {set(() => {return {divBackward: true}})},
-        divBackwardUntap: () => {set(() =>{return {divBackward: false}})},
+        divBackwardTap: () => {set(() => {return {divTapped: true, divBackward: true}})},
+        divBackwardUntap: () => {set(() =>{return {divTapped: false, divBackward: false}})},
         divLeftward: false,
-        divLeftwardTap: () => {set(() => {return {divLeftward: true}})},
-        divLeftwardUntap: () => {set(() => {return {divLeftward: false}})},
+        divLeftwardTap: () => {set(() => {return {divTapped: true, divLeftward: true}})},
+        divLeftwardUntap: () => {set(() => {return {divTapped: false, divLeftward: false}})},
         divJump: false,
-        divJumpTap: () => {set(() => {return {divJump: true}})},
-        divJumpUntap: () => {set(() => {return {divJump: false}})},
+        divJumpTap: () => {set(() => {return {divTapped: true, divJump: true}})},
+        divJumpUntap: () => {set(() => {return {divTapped: false, divJump: false}})},
 
     }
 }))

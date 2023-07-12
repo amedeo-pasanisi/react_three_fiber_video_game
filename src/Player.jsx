@@ -66,11 +66,20 @@ export default function Player() {
         const unsubscribeAny = subscribeKeys(() => {
             start()
         })
+        const unsubscribeDivTaped = useGame.subscribe(
+            (state) => state.divTapped,
+            (value) => {
+                if(value) {
+                    start()
+                }
+            }
+        )
         return () => {  //this is needed to subscribeKeys only once during developing
             unsubscribeReset()
             unsubscribeJump()
             unsubscribeDivJump()
             unsubscribeAny()
+            unsubscribeDivTaped()
         }
     }, [])
     
